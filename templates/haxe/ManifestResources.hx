@@ -54,17 +54,17 @@ import sys.FileSystem;
 		}
 
 		if (rootPath == null) {
-
-			#if (ios || tvos || webassembly)
-			rootPath = "assets/";
-			#elseif android
-			rootPath = "";
-			#elseif (console || sys)
-			rootPath = lime.system.System.applicationDirectory;
-			#else
-			rootPath = "./";
-			#end
-
+      #if (ios || tvos || webassembly)
+      rootPath = "assets/";
+      #elseif android
+      rootPath = "";
+      #elseif (sys && !switch)
+      rootPath = lime.system.System.applicationDirectory;
+      #elseif switch
+      rootPath = "romfs:/";
+      #else
+      rootPath = "./";
+      #end
 		}
 
 		#if (openfl && !flash && !display)
