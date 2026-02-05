@@ -528,18 +528,22 @@ class NativeApplication
 		{
 			switch (windowEventInfo.type)
 			{
-				case WINDOW_ACTIVATE:
-					advanceTimer();
-					window.onActivate.dispatch();
-					AudioManager.resume();
+			case WINDOW_ACTIVATE:
+				advanceTimer();
+				window.onActivate.dispatch();
+				#if !switch
+				AudioManager.resume();
+				#end
 
-				case WINDOW_CLOSE:
-					window.close();
+			case WINDOW_CLOSE:
+				window.close();
 
-				case WINDOW_DEACTIVATE:
-					window.onDeactivate.dispatch();
-					AudioManager.suspend();
-					pauseTimer = System.getTimer();
+			case WINDOW_DEACTIVATE:
+				window.onDeactivate.dispatch();
+				#if !switch
+				AudioManager.suspend();
+				#end
+				pauseTimer = System.getTimer();
 
 				case WINDOW_ENTER:
 					window.onEnter.dispatch();

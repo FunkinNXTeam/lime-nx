@@ -81,6 +81,9 @@ class AudioManager
 
 	public static function resume():Void
 	{
+		#if switch
+		return;
+		#end
 		#if !lime_doc_gen
 		if (context != null && context.type == OPENAL)
 		{
@@ -124,6 +127,9 @@ class AudioManager
 
 	public static function suspend():Void
 	{
+		#if switch
+		return;
+		#end
 		#if !lime_doc_gen
 		if (context != null && context.type == OPENAL)
 		{
