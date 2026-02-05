@@ -194,6 +194,14 @@ class NativeAudioSource
 
 		playing = true;
 
+		if (Application.current != null && !stream)
+		{
+			if (!Application.current.onUpdate.has(checkPlay))
+			{
+				Application.current.onUpdate.add(checkPlay);
+			}
+		}
+
 		if (stream)
 		{
 			setCurrentTime(getCurrentTime());
