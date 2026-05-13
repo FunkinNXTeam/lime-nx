@@ -42,8 +42,8 @@
 	<target name="ps4" handler="lime-ps4" />
 	<haxelib name="lime-ps4" if="ps4" />
 
-	<target name="vita" handler="lime-vita" />
-	<haxelib name="lime-vita" if="vita" />
+	<!--  <target name="vita" handler="lime-vita" />
+	<haxelib name="lime-vita" if="vita" /> -->
 
 	<!-- <target name="switch" handler="lime-switch" />
 	<haxelib name="lime-switch" if="switch" /> -->

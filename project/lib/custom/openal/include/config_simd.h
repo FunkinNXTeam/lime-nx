@@ -14,6 +14,10 @@
 #include "config/simd/config_simd-windows-x86.h"
 #endif
 
+#elif defined(HX_VITA) || defined(__PSVITA__)
+
+#include "config/simd/config_simd-android.h"
+
 #elif defined(HX_LINUX)
 
 #include "config/simd/config_simd-linux-x86_64.h"

@@ -32,3 +32,8 @@ package-lock.json
 node_modules
 !templates/**/node_modules
 .vscode/
+/.haxe_typecheck_cpp
+/openal-soft-vitasdk
+/vitasdk
+/flixel-lce
+/openfl

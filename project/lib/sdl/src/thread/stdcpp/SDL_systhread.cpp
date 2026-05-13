@@ -36,6 +36,10 @@ extern "C" {
 #include <Windows.h>
 #endif
 
+#if defined(__PSVITA__) || defined(__VITA__)
+#include <psp2/kernel/threadmgr.h>
+#endif
+
 static void
 RunThread(void *args)
 {
@@ -73,6 +77,8 @@ SDL_ThreadID(void)
 {
 #ifdef __WINRT__
     return GetCurrentThreadId();
+#elif defined(__PSVITA__) || defined(__VITA__)
+    return (SDL_threadID) sceKernelGetThreadId();
 #else
     // HACK: Mimick a thread ID, if one isn't otherwise available.
     static thread_local SDL_threadID current_thread_id = 0;

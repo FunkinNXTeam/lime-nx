@@ -70,6 +70,10 @@
 #	define HL_NX
 #endif
 
+#if defined(__PSVITA__) || defined(__psp2__) || defined(__vita__)
+#	define HL_VITA
+#endif
+
 #ifdef _DURANGO
 #	define HL_XBO
 #endif
@@ -78,7 +82,7 @@
 #	define HL_XBS
 #endif
 
-#if defined(HL_PS) || defined(HL_NX) || defined(HL_XBO) || defined(HL_XBS) || defined(HL_OS)
+#if defined(HL_PS) || defined(HL_NX) || defined(HL_VITA) || defined(HL_XBO) || defined(HL_XBS) || defined(HL_OS)
 #	define HL_CONSOLE
 #endif
 
@@ -246,7 +250,7 @@ HL_API int uvszprintf( uchar *out, int out_size, const uchar *fmt, va_list argli
 #	define utostr(out,size,str) wcstombs(out,str,size)
 #else
 #	include <stdarg.h>
-#if defined(HL_IOS) || defined(HL_TVOS) || defined(HL_MAC) || defined(HL_NX)
+#if defined(HL_IOS) || defined(HL_TVOS) || defined(HL_MAC) || defined(HL_NX) || defined(HL_VITA)
 #include <stddef.h>
 #include <stdint.h>
 #if !defined(__cplusplus) || __cplusplus < 201103L

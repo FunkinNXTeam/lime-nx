@@ -82,7 +82,7 @@
 # define UINT32_MAX     (4294967295U)
 #endif
 
-#if !defined(__NX__)
+#if !defined(__NX__) && !defined(__PSVITA__) && !defined(__psp2__) && !defined(__vita__)
 #if HAVE_BYTESWAP_H
 # include <byteswap.h>
 #endif

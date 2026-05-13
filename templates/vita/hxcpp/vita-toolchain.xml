@@ -1,0 +1,49 @@
+<xml>
+    <set name="VITA_CC"     value="${VITASDK}/bin/arm-vita-eabi-gcc"   unless="VITA_CC"/>
+    <set name="VITA_CXX"    value="${VITASDK}/bin/arm-vita-eabi-g++"   unless="VITA_CXX"/>
+    <set name="VITA_AR"     value="${VITASDK}/bin/arm-vita-eabi-ar"    unless="VITA_AR"/>
+    <set name="VITA_RANLIB" value="${VITASDK}/bin/arm-vita-eabi-ranlib" unless="VITA_RANLIB"/>
+    <set name="VITA_STRIP"  value="${VITASDK}/bin/arm-vita-eabi-strip"  unless="VITA_STRIP"/>
+    <set name="BINDIR" value="Vita" unless="BINDIR"/>
+    <set name="OBJEXT" value="-vita-v7" unless="OBJEXT"/>
+
+    <compiler id="vita-compiler" exe="${VITA_CXX}">
+        <exe name="${VITA_CXX}"/>
+        <flag value="-mlittle-endian"/>
+        <flag value="-marm"/>
+        <flag value="-mthumb-interwork"/>
+        <flag value="-mfloat-abi=hard"/>
+        <flag value="-mfpu=neon"/>
+        <flag value="-mtune=cortex-a9"/>
+        <flag value="-march=armv7-a"/>
+        <flag value="-fmessage-length=0"/>
+        <flag value="-fno-exceptions"/>
+        <flag value="-fno-rtti"/>
+        <flag value="-Wno-psabi"/>
+        <flag value="-D__VITA__"/>
+        <flag value="-D__PSVITA__"/>
+        <flag value="-DHX_VITA"/>
+        <flag value="-DHXCPP_ARMV7"/>
+        <flag value="-I${VITASDK}/arm-vita-eabi/include"/>
+        <flag value="-I${VITASDK}/arm-vita-eabi/include/c++/10.3.0"/>
+        <objdir value="obj/vita-v7/"/>
+        <outflag value="-o "/>
+        <ext value=".o"/>
+        <getversion value="${VITA_CXX} -v"/>
+    </compiler>
+
+    <stripper exe="${VITA_STRIP}"/>
+
+    <linker id="static_link" exe="${VITA_AR}">
+        <fromfile value="@"/>
+        <ranlib name="${VITA_RANLIB}"/>
+        <outflag value="rcs "/>
+        <ext value=".a"/>
+        <prefix value="lib"/>
+    </linker>
+
+    <target id="default" output="${BINDIR}/${LIBPREFIX}${LIBNAME}${LIBSUFFIX}" tool="linker" toolid="static_link">
+        <outdir name="${BINDIR}"/>
+        <files id="__all__"/>
+    </target>
+</xml>

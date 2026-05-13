@@ -19,10 +19,8 @@
 #undef DEFINE_EXTENSION
 #endif
 
-#ifdef HX_LINUX
-#if !defined(HX_NX)
+#if defined(HX_LINUX) && !defined(HX_NX) && !defined(HX_VITA) && !defined(__PSVITA__)
 #include <dlfcn.h>
-#endif
 #endif
 
 #ifndef APIENTRY
@@ -31,6 +29,9 @@
 
 #ifdef LIME_SDL
 #include <SDL.h>
+#endif
+#if defined(HX_VITA) && defined(LIME_VITA_PURE_VITAGL)
+#include <vitaGL.h>
 #endif
 
 	namespace lime {
@@ -5303,8 +5304,7 @@
 
 			initialized = true;
 
-#ifdef HX_LINUX
-#if !defined(HX_NX)
+#if defined(HX_LINUX) && !defined(HX_NX) && !defined(HX_VITA) && !defined(__PSVITA__)
 
 			OpenGLBindings::handle = dlopen ("libGL.so.1", RTLD_NOW|RTLD_GLOBAL);
 
@@ -5321,7 +5321,6 @@
 
 			}
 
-#endif
 #endif
 
 #ifdef NATIVE_TOOLKIT_SDL_ANGLE

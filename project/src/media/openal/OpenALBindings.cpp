@@ -3368,7 +3368,18 @@ namespace lime
 	#endif
 	void ALC_APIENTRY alsoft_callback_function(ALCenum eventType, ALCenum deviceType, ALCdevice* device, ALCsizei length, const ALCchar* message, void* userParam) ALC_API_NOEXCEPT17 {
 
-		gc_set_top_of_stack((int*)99, true);
+#if defined(HX_VITA)
+		(void)eventType;
+		(void)deviceType;
+		(void)device;
+		(void)length;
+		(void)message;
+		(void)userParam;
+		return;
+#endif
+
+		int stackTop = 0;
+		gc_set_top_of_stack(&stackTop, true);
 
 		if (alSoftEventCallback) {
 
@@ -3435,7 +3446,11 @@ namespace lime
 
 		alSoftEventCallback = new ValuePointer (callback);
 
+#if defined(HX_VITA)
+		alcEventCallbackSOFT (NULL, NULL);
+#else
 		alcEventCallbackSOFT (alsoft_callback_function, NULL);
+#endif
 		#endif
 
 	}

@@ -249,7 +249,7 @@ namespace lime {
 
 }
 
-#if defined(HX_LINUX) && !defined(__SWITCH__) && !defined(NX) && !defined(HX_NX)
+#if defined(HX_LINUX) && !defined(__SWITCH__) && !defined(NX) && !defined(HX_NX) && !defined(__PSVITA__) && !defined(__psp2__) && !defined(__vita__)
 
 // Improve compatibility with old glibc
 

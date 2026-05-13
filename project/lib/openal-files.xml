@@ -10,12 +10,19 @@
         <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/openal/core/" />
         <compilerflag value="-I${NATIVE_TOOLKIT_PATH}/openal/fmt-11.1.1/include/" />
 
-        <compilerflag value="-DAL_LIBTYPE_STATIC" if="native_toolkit_openal_static" />
+        <compilerflag value="-DAL_LIBTYPE_STATIC=1" if="native_toolkit_openal_static || vita || HX_VITA" />
 
         <compilerflag value="-DAL_ALEXT_PROTOTYPES" />
         <compilerflag value="-D_LARGEFILE_SOURCE" />
         <compilerflag value="-D_LARGE_FILES" />
         <compilerflag value="-DNOMINMAX" />
+
+        <compilerflag value="-DALSOFT_NO_THREADS" if="vita || HX_VITA" />
+
+        <section if="vita || HX_VITA">
+            <compilerflag value="-I${VITASDK}/arm-vita-eabi/include/SDL2" />
+            <compilerflag value="-I${VITASDK}/arm-vita-eabi/include" />
+        </section>
 
         <file name="${NATIVE_TOOLKIT_PATH}/openal/al/auxeffectslot.cpp" />
         <file name="${NATIVE_TOOLKIT_PATH}/openal/al/buffer.cpp" />
@@ -128,7 +135,7 @@
 
         </section>
 
-        <section if="linux">
+        <section if="linux" unless="vita || HX_VITA">
 
             <compilerflag value="-D_POSIX_C_SOURCE=200112L" />
             <compilerflag value="-D_XOPEN_SOURCE=500" />
@@ -192,9 +199,9 @@
             <compilerflag value="-Wextra" />
             <compilerflag value="-Werror" />
             -->
-            <compilerflag value="-fPIC" />
+            <compilerflag value="-fPIC" unless="vita || HX_VITA" />
             <compilerflag value="-fvisibility=hidden" />
-            <compilerflag value="-pthread" />
+            <compilerflag value="-pthread" unless="vita || HX_VITA" />
 
         </section>
 

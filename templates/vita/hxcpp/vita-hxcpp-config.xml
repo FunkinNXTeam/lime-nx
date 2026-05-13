@@ -1,0 +1,47 @@
+<xml>
+    <!--
+        HXCPP config override for PS Vita cross-compilation.
+        Loaded via -DHXCPP_CONFIG=<path>.
+        Environment variables CXX/CC/AR/RANLIB/STRIP are set by VitaPlatform
+        before invoking haxe, so HXCPP reads them from the environment.
+        This file provides a second layer of override via setenv.
+    -->
+
+    <section id="vars">
+        <setenv name="CXX"    value="${VITASDK}/bin/arm-vita-eabi-g++"/>
+        <setenv name="CC"     value="${VITASDK}/bin/arm-vita-eabi-gcc"/>
+        <setenv name="AR"     value="${VITASDK}/bin/arm-vita-eabi-ar"/>
+        <setenv name="RANLIB" value="${VITASDK}/bin/arm-vita-eabi-ranlib"/>
+        <setenv name="STRIP"  value="${VITASDK}/bin/arm-vita-eabi-strip"/>
+    </section>
+
+    <section id="exes">
+        <compiler exe="${VITASDK}/bin/arm-vita-eabi-g++">
+            <exe name="${VITASDK}/bin/arm-vita-eabi-g++"/>
+
+            <!-- Vita ARM compiler flags -->
+            <flag value="-marm"/>
+            <flag value="-mthumb-interwork"/>
+            <flag value="-march=armv7-a"/>
+            <flag value="-mfpu=neon"/>
+            <flag value="-mfloat-abi=hard"/>
+            <flag value="-mtune=cortex-a9"/>
+            <flag value="-D__VITA__"/>
+            <flag value="-D__PSVITA__"/>
+            <flag value="-I${VITASDK}/arm-vita-eabi/include"/>
+
+            <objdir value="obj/vita-v7/"/>
+        </compiler>
+
+        <linker id="static_link" exe="${VITASDK}/bin/arm-vita-eabi-ar">
+            <exe name="${VITASDK}/bin/arm-vita-eabi-ar"/>
+            <ranlib name="${VITASDK}/bin/arm-vita-eabi-ranlib"/>
+            <outflag value="rcs "/>
+            <ext value=".a"/>
+            <prefix value="lib"/>
+        </linker>
+
+        <stripper exe="${VITASDK}/bin/arm-vita-eabi-strip"/>
+    </section>
+
+</xml>

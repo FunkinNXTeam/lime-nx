@@ -295,6 +295,10 @@ class CommandLineTools
 							target = Platform.SWITCH;
 							targetFlags.set("cpp", "");
 
+						case "vita", "psvita", "psp2":
+							target = Platform.VITA;
+							targetFlags.set("cpp", "");
+
 						default:
 							target = cast targetName.toLowerCase();
 					}
@@ -634,6 +638,9 @@ class CommandLineTools
 
 				case SWITCH:
 					platform = new SwitchPlatform(command, project, targetFlags);
+
+				case VITA:
+					platform = new VitaPlatform(command, project, targetFlags);
 
 				default:
 			}

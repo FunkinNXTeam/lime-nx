@@ -64,11 +64,6 @@ class CPPHelper
 			}
 			catch (e:Dynamic) {}
 
-			if (flags != null)
-			{
-				args = args.concat(flags);
-			}
-
 			if (!foundOptions)
 			{
 				for (key in project.haxedefs.keys())
@@ -84,6 +79,11 @@ class CPPHelper
 						args.push("-D" + key + "=" + value);
 					}
 				}
+			}
+
+			if (flags != null)
+			{
+				args = args.concat(flags);
 			}
 
 			if (project.debug)
@@ -227,11 +227,6 @@ class CPPHelper
 
 		var args = ["run", project.config.getString("cpp.buildLibrary", "hxcpp"), buildFile];
 
-		if (flags != null)
-		{
-			args = args.concat(flags);
-		}
-
 		for (key in project.haxedefs.keys())
 		{
 			var value = project.haxedefs.get(key);
@@ -244,6 +239,11 @@ class CPPHelper
 			{
 				args.push("-D" + key + "=" + value);
 			}
+		}
+
+		if (flags != null)
+		{
+			args = args.concat(flags);
 		}
 
 		/*if (project.debug) {

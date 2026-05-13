@@ -14,6 +14,10 @@
 #include "config/config-windows-x86.h"
 #endif
 
+#elif defined(HX_VITA) || defined(__PSVITA__)
+
+#include "config/config-vita.h"
+
 #elif defined(HX_LINUX)
 
 #include "config/config-linux-x86_64.h"

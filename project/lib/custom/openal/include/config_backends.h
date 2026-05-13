@@ -14,6 +14,10 @@
 #include "config/backends/config_backends-windows-x86.h"
 #endif
 
+#elif defined(HX_VITA) || defined(__PSVITA__)
+
+#include "config/backends/config_backends-vita.h"
+
 #elif defined(HX_LINUX)
 
 #include "config/backends/config_backends-linux-x86_64.h"

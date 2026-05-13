@@ -4,6 +4,9 @@
 #include "system/System.h"
 #include "../../graphics/opengl/OpenGL.h"
 #include "../../graphics/opengl/OpenGLBindings.h"
+#if defined(HX_VITA) && defined(LIME_VITA_PURE_VITAGL)
+#include <vitaGL.h>
+#endif
 
 #ifdef HX_WINDOWS
 #include <Windows.h>
@@ -43,6 +46,10 @@ namespace lime {
 		contextHeight = 0;
 
 		currentApplication = application;
+		#if defined(HX_VITA)
+		flags &= ~(WINDOW_FLAG_HW_AA | WINDOW_FLAG_HW_AA_HIRES | WINDOW_FLAG_DEPTH_BUFFER | WINDOW_FLAG_STENCIL_BUFFER);
+		#endif
+
 		this->flags = flags;
 
 		int sdlWindowFlags = 0;
@@ -217,9 +224,31 @@ namespace lime {
 
 			// }
 
+			#if defined(HX_VITA) && defined(LIME_VITA_PURE_VITAGL)
+			static bool vitaglInited = false;
+			if (!vitaglInited) {
+				vglUseCachedMem(GL_TRUE);
+				vglUseVram(GL_TRUE);
+				vglUseVramForUSSE(GL_TRUE);
+				vglUseLowPrecision(GL_TRUE);
+				vglWaitVblankStart(GL_FALSE);
+				vglSetupShaderPatcher(8 * 1024 * 1024, 8 * 1024 * 1024, 8 * 1024 * 1024);
+				if (!vglInit(0x800000)) {
+					printf ("[VITA] vglInit failed.\n");
+				}
+				vitaglInited = true;
+			}
+			context = (SDL_GLContext)0x1;
+			OpenGLBindings::Init();
+			#else
 			context = SDL_GL_CreateContext (sdlWindow);
+			#endif
 
+			#if defined(HX_VITA) && defined(LIME_VITA_PURE_VITAGL)
+			if (context) {
+			#else
 			if (context && SDL_GL_MakeCurrent (sdlWindow, context) == 0) {
+			#endif
 
 				if (flags & WINDOW_FLAG_VSYNC) {
 
@@ -266,7 +295,9 @@ namespace lime {
 
 			} else {
 
+				#if !(defined(HX_VITA) && defined(LIME_VITA_PURE_VITAGL))
 				SDL_GL_DeleteContext (context);
+				#endif
 				context = NULL;
 
 			}
@@ -393,7 +424,11 @@ namespace lime {
 
 		if (context && !sdlRenderer) {
 
+			#if defined(HX_VITA) && defined(LIME_VITA_PURE_VITAGL)
+			vglSwapBuffers(GL_FALSE);
+			#else
 			SDL_GL_SwapWindow (sdlWindow);
+			#endif
 
 		} else if (sdlRenderer) {
 
@@ -493,7 +528,9 @@ namespace lime {
 
 		if (sdlWindow && context) {
 
+			#if !(defined(HX_VITA) && defined(LIME_VITA_PURE_VITAGL))
 			SDL_GL_MakeCurrent (sdlWindow, context);
+			#endif
 
 		}
 

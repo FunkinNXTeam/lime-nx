@@ -785,7 +785,7 @@ namespace lime {
 
 	// Añadir esta condición alrededor de toda la función lime::fdopen
 #ifndef HX_WINDOWS
-#if !defined(__SWITCH__) && !defined(NX) && !defined(HX_NX)
+#if !defined(__SWITCH__) && !defined(NX) && !defined(HX_NX) && !defined(__PSVITA__) && !defined(__psp2__) && !defined(__vita__)
 
 	FILE_HANDLE *fdopen(int fd, const char *mode)
 	{
@@ -801,12 +801,12 @@ namespace lime {
 		return NULL;
 	}
 
-#endif // !defined(__SWITCH__) && !defined(NX) && !defined(HX_NX)
+#endif // !defined(__SWITCH__) && !defined(NX) && !defined(HX_NX) && !defined(__PSVITA__) && !defined(__psp2__) && !defined(__vita__)
 #endif // HX_WINDOWS
 
 // Y en la sección de Windows (o en una sección específica para Switch si no está definida como Windows)
-#if defined(__SWITCH__) || defined(NX) || defined(HX_NX)
-	// Definir una función vacía o que devuelva NULL para Switch
+#if defined(__SWITCH__) || defined(NX) || defined(HX_NX) || defined(__PSVITA__) || defined(__psp2__) || defined(__vita__)
+    // Definir una función vacía o que devuelva NULL para Switch
 	FILE_HANDLE *fdopen(int fd, const char *mode)
 	{
 		// fdopen no está disponible o no se puede implementar fácilmente en Switch
