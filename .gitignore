@@ -37,3 +37,6 @@ node_modules
 /vitasdk
 /flixel-lce
 /openfl
+/ndll/Linux64
+/ndll/Switch
+/ndll/Vita
