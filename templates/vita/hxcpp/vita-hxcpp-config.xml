@@ -21,7 +21,7 @@
 
             <!-- Vita ARM compiler flags -->
             <flag value="-marm"/>
-            <flag value="-mthumb-interwork"/>
+            <flag value="-mno-thumb-interwork"/>
             <flag value="-march=armv7-a"/>
             <flag value="-mfpu=neon"/>
             <flag value="-mfloat-abi=hard"/>

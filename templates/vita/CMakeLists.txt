@@ -18,12 +18,54 @@ set(VITA_VERSION     "[LIME_PROJECT_VERSION]")
 
 set(STUB_SRC "${CMAKE_BINARY_DIR}/_vita_stub.cpp")
 file(WRITE "${STUB_SRC}"
+"#include <psp2/kernel/processmgr.h>\n"
+"#include <psp2/kernel/clib.h>\n"
+"#include <psp2/message_dialog.h>\n"
+"#include <psp2/common_dialog.h>\n"
+"#include <stdexcept>\n"
+"\n"
+"\n"
+"unsigned int sceLibcHeapSize = 192 * 1024 * 1024;\n"
+"\n"
 "extern \"C\" int lime_register_prims();\n"
 "extern \"C\" void __hxcpp_lib_main();\n"
 "\n"
+"static void show_error_dialog(const char* msg) {\n"
+"    sceClibPrintf(\"[ERROR] %s\\n\", msg);\n"
+"    SceMsgDialogUserMessageParam msgParam;\n"
+"    sceClibMemset(&msgParam, 0, sizeof(msgParam));\n"
+"    msgParam.buttonType = SCE_MSG_DIALOG_BUTTON_TYPE_OK;\n"
+"    msgParam.msg = (const SceChar8*)msg;\n"
+"\n"
+"    SceMsgDialogParam param;\n"
+"    sceMsgDialogParamInit(&param);\n"
+"    param.mode = SCE_MSG_DIALOG_MODE_USER_MSG;\n"
+"    param.userMsgParam = &msgParam;\n"
+"\n"
+"    if (sceMsgDialogInit(&param) < 0) {\n"
+"        while (1) sceKernelDelayThread(1000000);\n"
+"    }\n"
+"\n"
+"    while (sceMsgDialogGetStatus() == SCE_COMMON_DIALOG_STATUS_RUNNING) {\n"
+"        sceKernelDelayThread(16000);\n"
+"    }\n"
+"    sceMsgDialogTerm();\n"
+"}\n"
+"\n"
 "int main(int argc, char **argv) {\n"
-"    lime_register_prims();\n"
-"    __hxcpp_lib_main();\n"
+"    try {\n"
+"        lime_register_prims();\n"
+"        __hxcpp_lib_main();\n"
+"    } catch (const std::exception& e) {\n"
+"        char buf[512];\n"
+"        sceClibSnprintf(buf, sizeof(buf), \"Exception:\\n%.480s\", e.what());\n"
+"        show_error_dialog(buf);\n"
+"        sceKernelExitProcess(1);\n"
+"    } catch (...) {\n"
+"        show_error_dialog(\"Haxe exception (see debug log)\");\n"
+"        sceKernelExitProcess(1);\n"
+"    }\n"
+"    sceKernelExitProcess(0);\n"
 "    return 0;\n"
 "}\n"
 )
@@ -68,6 +110,8 @@ target_link_libraries(${PROJECT_NAME}
     SceCommonDialog_stub
     SceAppMgr_stub
     SceAppUtil_stub
+    SceDisplay_stub
+    SceIncomingDialog_stub
     SceNet_stub
     SceNetCtl_stub
     SceHttp_stub

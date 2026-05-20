@@ -5,7 +5,7 @@
 #include "../../graphics/opengl/OpenGL.h"
 #include "../../graphics/opengl/OpenGLBindings.h"
 #if defined(HX_VITA) && defined(LIME_VITA_PURE_VITAGL)
-#include <vitaGL.h>
+// #include <vitaGL.h>
 #endif
 
 #ifdef HX_WINDOWS

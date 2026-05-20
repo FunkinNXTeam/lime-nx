@@ -11,7 +11,7 @@
         <exe name="${VITA_CXX}"/>
         <flag value="-mlittle-endian"/>
         <flag value="-marm"/>
-        <flag value="-mthumb-interwork"/>
+        <flag value="-mno-thumb-interwork"/>
         <flag value="-mfloat-abi=hard"/>
         <flag value="-mfpu=neon"/>
         <flag value="-mtune=cortex-a9"/>

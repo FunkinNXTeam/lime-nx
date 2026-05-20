@@ -35,6 +35,11 @@
 #include <OpenGLES/ES3/gl.h>
 #include <OpenGLES/ES3/glext.h>
 
+#elif defined (HX_VITA)
+#define LIME_GLES
+#include <vitaGL.h>
+#include "graphics/VitaGLCompat.h"
+
 #elif defined (HX_LINUX)
 
 #define LIME_GLES3_API
